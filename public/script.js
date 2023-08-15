@@ -14,12 +14,22 @@ $(function () {
             $("#chat_message").val("");
         }
     })
+
+    peer.on("open",(id)=>{
+
+        socket.emit("join-room",ROOM_ID,id,user)
+    })
+    socket.on("createMessage",(message)=>{
+        $(".messages").append(`<div class=message>
+        <b>
+        <i class="far fa-user-circle"></i>
+        <span>${userName===user?"me":userName}</span>
+        </b>
+        <span>${message}</span>
+        </div>`)
+    })
+
+
 })
 
-socket.on("createMessage", (message) => {
-    $(".messages").append(`
-        <div class="message">
-            <span>${message}</span>
-        </div>
-    `)
-});
+
